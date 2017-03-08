@@ -1,0 +1,8 @@
+title: Phil Lopreiato
+description: I do stuff.
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-midnight
+
+gems:
+  - jekyll-mentions
