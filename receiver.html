@@ -37,10 +37,21 @@ limitations under the License.
     <title>Cast Hello Text</title>
   </head>
   <body>
-	<DIV id="message">Talk to me</DIV>
+    <script src= "http://player.twitch.tv/js/embed/v1.js"></script>
+    <div id="player"></div>
     <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
     <script type="text/javascript">
       window.onload = function() {
+	var options = {
+            width: 854,
+            height: 480,
+         channel: "nefirst_blue", 
+        //video: "{VIDEO_ID}"       
+    };
+    var player = new Twitch.Player("player", options);
+    player.setVolume(0.5);
+    player.pause(); 	      
+    player.addEventListener(Twitch.Player.PAUSE, () => { console.log('Player is paused!'); });      
         cast.receiver.logger.setLevelValue(0);
         window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
         console.log('Starting Receiver Manager');
@@ -81,6 +92,11 @@ limitations under the License.
           console.log('Message [' + event.senderId + ']: ' + event.data);
           // display the message from the sender
           displayText(event.data);
+	  if (player.isPaused()) {
+	    player.play();		  
+	  } else {
+	    player.pause();   
+	  }	  
           // inform all senders on the CastMessageBus of the incoming message event
           // sender message listener will be invoked
           window.messageBus.send(event.senderId, event.data);
